@@ -20,7 +20,7 @@ This Employee Management UI is a web application built using Angular 15. It allo
 ## Installation
 
 1. Clone the repository:
-   git clone <repository-url>
+   git clone https://github.com/aminebensaid10/Employee-Management-UI.git
 2. Navigate to the project directory:
     cd Employee_Management_UI 
 3. Install the dependencies:
