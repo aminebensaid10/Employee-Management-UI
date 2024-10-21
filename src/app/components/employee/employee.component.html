@@ -1,0 +1,144 @@
+<!-- Form to add Employee -->
+<div class="container employee-container mt-5">
+    <h2 class="text-center">Add Employee</h2>
+    <form #employeeForm="ngForm" (ngSubmit)="onSubmit(employeeForm)">
+        <!-- Full Name -->
+        <div class="form-group">
+            <label for="fullName">Full Name:</label>
+            <input type="text" id="fullName" name="fullName" ngModel required class="form-control" placeholder="Enter Full Name">
+            <div class="invalid-feedback" *ngIf="employeeForm.controls['fullName']?.touched && !employeeForm.controls['fullName']?.valid">
+                Please enter a full name.
+            </div>
+        </div>
+        
+        <!-- Email -->
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" ngModel required email class="form-control" placeholder="Enter Email">
+            <div class="invalid-feedback" *ngIf="employeeForm.controls['email']?.touched && !employeeForm.controls['email']?.valid">
+                Please enter a valid email.
+            </div>
+        </div>
+        
+        <!-- Department -->
+        <div class="form-group">
+            <label for="department">Department:</label>
+            <select id="department" name="department" ngModel required class="form-control">
+                <option value="" disabled selected>Select Department</option>
+                <option value="IT">IT</option>
+                <option value="Environmental Engineering">Environmental Engineering</option>
+                <option value="Marketing">Marketing</option>
+                <option value="Sales">Sales</option>
+            </select>
+            <div class="invalid-feedback" *ngIf="employeeForm.controls['department']?.touched && !employeeForm.controls['department']?.valid">
+                Please select a department.
+            </div>
+        </div>
+        
+        <!-- Gender -->
+        <div class="form-group">
+            <label>Gender:</label>
+            <div class="form-check">
+                <input type="radio" id="male" name="gender" value="Male" ngModel required class="form-check-input">
+                <label class="form-check-label" for="male">Male</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" id="female" name="gender" value="Female" ngModel required class="form-check-input">
+                <label class="form-check-label" for="female">Female</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" id="other" name="gender" value="Other" ngModel required class="form-check-input">
+                <label class="form-check-label" for="other">Other</label>
+            </div>
+            <div class="invalid-feedback" *ngIf="employeeForm.controls['gender']?.touched && !employeeForm.controls['gender']?.valid">
+                Please select a gender.
+            </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary" [disabled]="!employeeForm.valid">Add Employee</button>
+    </form>
+</div>
+
+<!-- Employee List -->
+<div class="container mt-5">
+    <h2 class="text-center">Employee List</h2>
+    <!-- Search bar -->
+    <div class="mb-3">
+        <input type="text" class="form-control " placeholder="Search by name" [(ngModel)]="filterName">
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-secondary mt-2" (click)="sortByName()">Sort by Name</button>
+        <button class="btn btn-secondary mt-2" (click)="sortByDepartment()">Sort by Department</button>
+    </div>
+    <div class="card">
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Department</th>
+                        <th>Gender</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let employee of filteredEmployees(); let i = index">
+                        <td>{{ employee.fullName }}</td>
+                        <td>{{ employee.email }}</td>
+                        <td>{{ employee.department }}</td>
+                        <td>{{ employee.gender }}</td>
+                        <td>
+                            <button class="btn btn-danger" (click)="deleteEmployee(i)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Charts Section -->
+<div class="container mt-5">
+    <h2 class="text-center">Employee Data</h2>
+    <div class="row">
+        <!-- Bar Chart Card -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    Department-wise Employee Count
+                </div>
+                <div class="card-body chart-container">
+                    <canvas baseChart
+                        [datasets]="barChartData"
+                        [labels]="barChartLabels"
+                        [type]="'bar'"
+                        [options]="barChartOptions"
+                        [legend]="barChartLegend"
+                        >
+                    </canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pie Chart Card -->
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    Gender Distribution
+                </div>
+                <div class="card-body chart-container">
+                    <canvas baseChart
+                        [datasets]="pieChartData"
+                        [labels]="pieChartLabels"
+                        [type]="'pie'"
+                        [options]="pieChartOptions"
+                        [legend]="pieChartLegend"
+                        style="max-width: 300px; max-height: 300px;">
+                    </canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
